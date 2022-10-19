@@ -1,0 +1,65 @@
+apiVersion: v1
+entries:
+  flyte:
+  - apiVersion: v2
+    created: "2022-10-19T15:48:44.318638937Z"
+    dependencies:
+    - alias: flyte
+      name: flyte-core
+      repository: file://../flyte-core
+      version: v1.4.0
+    - condition: contour.enabled
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.10.1
+    - alias: sparkoperator
+      condition: sparkoperator.enabled
+      name: spark-operator
+      repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+      version: 1.1.15
+    - condition: kubernetes-dashboard.enabled
+      name: kubernetes-dashboard
+      repository: https://kubernetes.github.io/dashboard/
+      version: 4.0.2
+    description: A Helm chart for Flyte Sandbox
+    digest: 6df0d3e3e95610794b6049512ace144993c82664f98d954b348611c6e863378b
+    name: flyte
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-v1.4.0.tgz
+    version: v1.4.0
+  flyte-core:
+  - apiVersion: v2
+    created: "2022-10-19T15:48:44.284159242Z"
+    description: A Helm chart for Flyte core
+    digest: fd013454be20ae9b49cf8e02f7f258d15b7cf84de4fb3b237f0d22dcce3e7d80
+    name: flyte-core
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-core-v1.4.0.tgz
+    version: v1.4.0
+  flyte-deps:
+  - apiVersion: v2
+    created: "2022-10-19T15:48:44.299289393Z"
+    dependencies:
+    - condition: contour.enabled
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.10.1
+    - alias: sparkoperator
+      condition: sparkoperator.enabled
+      name: spark-operator
+      repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+      version: 1.1.15
+    - condition: kubernetes-dashboard.enabled
+      name: kubernetes-dashboard
+      repository: https://kubernetes.github.io/dashboard/
+      version: 4.0.2
+    description: A Helm chart for Flyte dependency
+    digest: bdd0a4e5c1d66eac3457582e16151278528bb3eb1c295b66a6db2a2a012e4f42
+    name: flyte-deps
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-deps-v1.4.0.tgz
+    version: v1.4.0
+generated: "2022-10-19T15:48:44.27966833Z"
