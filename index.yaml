@@ -2,7 +2,34 @@ apiVersion: v1
 entries:
   flyte:
   - apiVersion: v2
-    created: "2022-10-19T15:48:44.318638937Z"
+    created: "2022-10-19T15:57:54.014228671Z"
+    dependencies:
+    - alias: flyte
+      name: flyte-core
+      repository: file://../flyte-core
+      version: v1.5.0
+    - condition: contour.enabled
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.10.1
+    - alias: sparkoperator
+      condition: sparkoperator.enabled
+      name: spark-operator
+      repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+      version: 1.1.15
+    - condition: kubernetes-dashboard.enabled
+      name: kubernetes-dashboard
+      repository: https://kubernetes.github.io/dashboard/
+      version: 4.0.2
+    description: A Helm chart for Flyte Sandbox
+    digest: 7538467affed90ad5d01054f0806feb2ba8f52494b59c3648501dd3d88af49af
+    name: flyte
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-v1.5.0.tgz
+    version: v1.5.0
+  - apiVersion: v2
+    created: "2022-10-19T15:57:53.994145532Z"
     dependencies:
     - alias: flyte
       name: flyte-core
@@ -30,7 +57,16 @@ entries:
     version: v1.4.0
   flyte-core:
   - apiVersion: v2
-    created: "2022-10-19T15:48:44.284159242Z"
+    created: "2022-10-19T15:57:53.948782291Z"
+    description: A Helm chart for Flyte core
+    digest: 6c8f316812998c9704de4b2ca2bd2731dd26c29227d0cca18044e3377846da07
+    name: flyte-core
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-core-v1.5.0.tgz
+    version: v1.5.0
+  - apiVersion: v2
+    created: "2022-10-19T15:57:53.94367713Z"
     description: A Helm chart for Flyte core
     digest: fd013454be20ae9b49cf8e02f7f258d15b7cf84de4fb3b237f0d22dcce3e7d80
     name: flyte-core
@@ -40,7 +76,30 @@ entries:
     version: v1.4.0
   flyte-deps:
   - apiVersion: v2
-    created: "2022-10-19T15:48:44.299289393Z"
+    created: "2022-10-19T15:57:53.975061604Z"
+    dependencies:
+    - condition: contour.enabled
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.10.1
+    - alias: sparkoperator
+      condition: sparkoperator.enabled
+      name: spark-operator
+      repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+      version: 1.1.15
+    - condition: kubernetes-dashboard.enabled
+      name: kubernetes-dashboard
+      repository: https://kubernetes.github.io/dashboard/
+      version: 4.0.2
+    description: A Helm chart for Flyte dependency
+    digest: 8f368efedfbe4737239044ef3b64e95fe352d74747fd96c610ebee828060bd89
+    name: flyte-deps
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-deps-v1.5.0.tgz
+    version: v1.5.0
+  - apiVersion: v2
+    created: "2022-10-19T15:57:53.961750046Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -62,4 +121,4 @@ entries:
     urls:
     - https://evalsocket.github.io/flyte/flyte-deps-v1.4.0.tgz
     version: v1.4.0
-generated: "2022-10-19T15:48:44.27966833Z"
+generated: "2022-10-19T15:57:53.939607882Z"
