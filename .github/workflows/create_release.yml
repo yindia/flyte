@@ -70,11 +70,11 @@ jobs:
       - name: Tag Image to release version
         run: |
           docker pull ghcr.io/flyteorg/${{ matrix.component }}:${{ steps.set_version.outputs.version }}
-          docker tag ghcr.io/flyteorg/${{ matrix.component }}:${{ steps.set_version.outputs.version }} ghcr.io/flyteorg/${{ matrix.component }}-release:${{ needs.bump-version.outputs.version }}
-          docker push ghcr.io/flyteorg/${{ matrix.component }}-release:${{ needs.bump-version.outputs.version }}
+          docker tag ghcr.io/flyteorg/${{ matrix.component }}:${{ steps.set_version.outputs.version }} ghcr.io/evalsocket/${{ matrix.component }}-release:${{ needs.bump-version.outputs.version }}
+          docker push ghcr.io/evalsocket/${{ matrix.component }}-release:${{ needs.bump-version.outputs.version }}
 
-          docker tag ghcr.io/flyteorg/${{ matrix.component }}:${{ steps.set_version.outputs.version }} ghcr.io/flyteorg/${{ matrix.component }}-release:latest
-          docker push ghcr.io/flyteorg/${{ matrix.component }}-release:latest
+          docker tag ghcr.io/flyteorg/${{ matrix.component }}:${{ steps.set_version.outputs.version }} ghcr.io/evalsocket/${{ matrix.component }}-release:latest
+          docker push ghcr.io/evalsocket/${{ matrix.component }}-release:latest
 
   trigger-sandbox-publish:
     name: Sandbox build
@@ -115,7 +115,7 @@ jobs:
       repository: flyte-sandbox-lite
       version: latest
       args: "FLYTE_VERSION=${{ needs.bump-version.outputs.version }}"
-      push: false
+      push: true
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
       FLYTE_BOT_USERNAME: ${{ secrets.FLYTE_BOT_USERNAME }}
@@ -155,7 +155,7 @@ jobs:
       - name: Preprare Flyte Helm Release
         env:
           VERSION: ${{ needs.bump-version.outputs.version }}
-          REPOSITORY: "https://flyteorg.github.io/flyte"
+          REPOSITORY: "https://evalsocket.github.io/flyte"
         run: |
           make prepare_artifacts
       - name: Run chart-releaser
