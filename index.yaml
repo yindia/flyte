@@ -2,7 +2,34 @@ apiVersion: v1
 entries:
   flyte:
   - apiVersion: v2
-    created: "2022-10-19T15:57:54.014228671Z"
+    created: "2022-10-19T16:08:40.94421799Z"
+    dependencies:
+    - alias: flyte
+      name: flyte-core
+      repository: file://../flyte-core
+      version: v1.6.0
+    - condition: contour.enabled
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.10.1
+    - alias: sparkoperator
+      condition: sparkoperator.enabled
+      name: spark-operator
+      repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+      version: 1.1.15
+    - condition: kubernetes-dashboard.enabled
+      name: kubernetes-dashboard
+      repository: https://kubernetes.github.io/dashboard/
+      version: 4.0.2
+    description: A Helm chart for Flyte Sandbox
+    digest: 4c71850ce9b9fc59a973a5799cf962ea5a67bd9f95263f2a2b35d6461944f6a2
+    name: flyte
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-v1.6.0.tgz
+    version: v1.6.0
+  - apiVersion: v2
+    created: "2022-10-19T16:08:40.926524424Z"
     dependencies:
     - alias: flyte
       name: flyte-core
@@ -29,7 +56,7 @@ entries:
     - https://evalsocket.github.io/flyte/flyte-v1.5.0.tgz
     version: v1.5.0
   - apiVersion: v2
-    created: "2022-10-19T15:57:53.994145532Z"
+    created: "2022-10-19T16:08:40.910013183Z"
     dependencies:
     - alias: flyte
       name: flyte-core
@@ -57,7 +84,16 @@ entries:
     version: v1.4.0
   flyte-core:
   - apiVersion: v2
-    created: "2022-10-19T15:57:53.948782291Z"
+    created: "2022-10-19T16:08:40.859038328Z"
+    description: A Helm chart for Flyte core
+    digest: a9622ed088de39079a74230f1c9625e9663fb4341292150db360e83d581c93af
+    name: flyte-core
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-core-v1.6.0.tgz
+    version: v1.6.0
+  - apiVersion: v2
+    created: "2022-10-19T16:08:40.854653138Z"
     description: A Helm chart for Flyte core
     digest: 6c8f316812998c9704de4b2ca2bd2731dd26c29227d0cca18044e3377846da07
     name: flyte-core
@@ -66,7 +102,7 @@ entries:
     - https://evalsocket.github.io/flyte/flyte-core-v1.5.0.tgz
     version: v1.5.0
   - apiVersion: v2
-    created: "2022-10-19T15:57:53.94367713Z"
+    created: "2022-10-19T16:08:40.850685456Z"
     description: A Helm chart for Flyte core
     digest: fd013454be20ae9b49cf8e02f7f258d15b7cf84de4fb3b237f0d22dcce3e7d80
     name: flyte-core
@@ -76,7 +112,30 @@ entries:
     version: v1.4.0
   flyte-deps:
   - apiVersion: v2
-    created: "2022-10-19T15:57:53.975061604Z"
+    created: "2022-10-19T16:08:40.893738246Z"
+    dependencies:
+    - condition: contour.enabled
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.10.1
+    - alias: sparkoperator
+      condition: sparkoperator.enabled
+      name: spark-operator
+      repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+      version: 1.1.15
+    - condition: kubernetes-dashboard.enabled
+      name: kubernetes-dashboard
+      repository: https://kubernetes.github.io/dashboard/
+      version: 4.0.2
+    description: A Helm chart for Flyte dependency
+    digest: 700a4f250f519d11e43720c33b478c8c75c12b6ddfba19e792b81d3e30054d81
+    name: flyte-deps
+    type: application
+    urls:
+    - https://evalsocket.github.io/flyte/flyte-deps-v1.6.0.tgz
+    version: v1.6.0
+  - apiVersion: v2
+    created: "2022-10-19T16:08:40.881594395Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -99,7 +158,7 @@ entries:
     - https://evalsocket.github.io/flyte/flyte-deps-v1.5.0.tgz
     version: v1.5.0
   - apiVersion: v2
-    created: "2022-10-19T15:57:53.961750046Z"
+    created: "2022-10-19T16:08:40.871063777Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -121,4 +180,4 @@ entries:
     urls:
     - https://evalsocket.github.io/flyte/flyte-deps-v1.4.0.tgz
     version: v1.4.0
-generated: "2022-10-19T15:57:53.939607882Z"
+generated: "2022-10-19T16:08:40.847060481Z"
