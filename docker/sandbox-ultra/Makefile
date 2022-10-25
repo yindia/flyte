@@ -12,16 +12,18 @@ IMAGES := \
 	bitnami/minio:2022-debian-11 \
 	postgres:14-alpine \
 	envoyproxy/envoy:v1.23-latest \
+	rancher/pause:3.1 \
+	kubernetesui/metrics-scraper:v1.0.8 \
 	registry:2
 
 define IMAGE_RULE
 images/tar/$(subst /,-,$(word 1,$(subst :, ,$(1)))):
-	mkdir -p $$(dir $$@)/arm64
+	mkdir -p $$(dir $$@)arm64
 	docker pull --platform linux/arm64 $(1)
 	docker tag $(1) $(word 1,$(subst :, ,$(1))):latest
 	docker save --output $$(dir $$@)arm64/$(subst /,-,$(word 1,$(subst :, ,$(1)))).tar $(word 1,$(subst :, ,$(1))):latest
 
-	mkdir -p $$(dir $$@)/amd64
+	mkdir -p $$(dir $$@)amd64
 	docker pull --platform linux/amd64 $(1)
 	docker tag $(1) $(word 1,$(subst :, ,$(1))):latest
 	docker save --output $$(dir $$@)amd64/$(subst /,-,$(word 1,$(subst :, ,$(1)))).tar $(word 1,$(subst :, ,$(1))):latest
@@ -30,15 +32,26 @@ endef
 $(foreach name,$(IMAGES),$(eval $(call IMAGE_RULE,$(name))))
 
 images/tar/flyte:
+	mkdir -p $(dir $@)
+	docker build -t flyte images/dockerfiles/flyte
+	docker save --output $@.tar flyte:latest
+
+images/tar/flyte-ci:
 	mkdir -p $(dir $@)amd64
 	mkdir -p $(dir $@)arm64
-	docker build  -t flyte ../../ -f ../../Dockerfile  --platform linux/amd64
-	docker save --output $(dir $@)amd64/flyte.tar flyte:latest
-	docker build  -t flyte ../../ -f ../../Dockerfile  --platform linux/arm64
-	docker save --output $(dir $@)arm64/flyte.tar flyte:latest
+	cp /tmp/flyte-amd64.tar $(dir $@)amd64/flyte.tar
+	cp /tmp/flyte-arm64.tar $(dir $@)arm64/flyte.tar
 
 .PHONY: images
 images: $(foreach name,flyte $(IMAGES),images/tar/$(subst /,-,$(word 1,$(subst :, ,$(name)))))
+
+.PHONY: osxbuildflyte
+osxbuildflyte:
+	echo hello
+
+.PHONY: images-ci
+images-ci: $(foreach name,flyte-ci $(IMAGES),images/tar/$(subst /,-,$(word 1,$(subst :, ,$(name)))))
+
 
 .PHONY: bootstrap
 bootstrap:

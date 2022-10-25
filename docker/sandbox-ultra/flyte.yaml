@@ -1,9 +1,5 @@
-# This is a sample configuration file.
-# Real configuration when running inside K8s (local or otherwise) lives in a ConfigMap
-# Look in the artifacts directory in the flyte repo for what's actually run
-# https://github.com/lyft/flyte/blob/b47565c9998cde32b0b5f995981e3f3c990fa7cd/artifacts/flyteadmin.yaml#L72
 propeller:
-  rawoutput-prefix: "s3://my-s3-bucket/test/"
+  rawoutput-prefix: "s3://my-s3-bucket/data/"
   create-flyteworkflow-crd: true
 webhook:
   certDir: /var/run/flyte/certs
@@ -17,8 +13,6 @@ tasks:
     default-for-task-types:
       - container: container
       - container_array: K8S-ARRAY
-flyteadmin:
-  runScheduler: false
 database:
   postgres:
     port: 30001
@@ -29,19 +23,19 @@ database:
 storage:
   type: minio
   connection:
+    region: my-region
     access-key: minio
     auth-type: accesskey
     secret-key: miniostorage
     disable-ssl: true
     endpoint: "http://localhost:30002"
-    region: my-region
   cache:
     max_size_mbs: 10
     target_gc_percent: 100
   container: "my-s3-bucket"
 logger:
   show-source: true
-  level: 4
+  level: 1
 admin:
   endpoint: localhost:8089
   insecure: true
@@ -56,19 +50,17 @@ plugins:
       - FLYTE_AWS_ACCESS_KEY_ID: minio
       - FLYTE_AWS_SECRET_ACCESS_KEY: miniostorage
   # Logging configuration
+  # Escape Helm templating because admin will template these later
   logs:
     kubernetes-enabled: true
     kubernetes-template-uri:
-        "http://localhost:30080/kubernetes-dashboard/#/log/{{
-        .namespace }}/{{ .podName }}/pod?namespace={{ .namespace }}"
+        "http://localhost:30080/kubernetes-dashboard/#/log/{{ .namespace }}/{{ .podName }}/pod?namespace={{ .namespace }}"
   k8s-array:
     logs:
       config:
         kubernetes-enabled: true
-        kubernetes-template-uri:
-            "http://localhost:30080/kubernetes-dashboard/#/log/{{
-            .namespace }}/{{ .podName }}/pod?namespace={{ .namespace }}"
-
+        kubernetes-template-uri: 
+            "http://localhost:30080/kubernetes-dashboard/#/log/{{ .namespace }}/{{ .podName }}/pod?namespace={{ .namespace }}"
 
 cluster_resources:
   refreshInterval: 5m
@@ -101,3 +93,5 @@ catalog-cache:
   endpoint: localhost:8081
   insecure: true
   type: datacatalog
+namespace_mapping:
+  template: "{{ project }}-{{ domain }}"
