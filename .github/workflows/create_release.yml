@@ -158,6 +158,7 @@ jobs:
           VERSION: ${{ inputs.version }}
           REPOSITORY: "https://evalsocket.github.io/flyte"
         run: |
+          helm init
           make prepare_artifacts
       - name: Run chart-releaser
         uses: stefanprodan/helm-gh-pages@v1.4.1
