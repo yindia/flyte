@@ -86,7 +86,6 @@ jobs:
           platforms: linux/arm64
           push: ${{ inputs.push }}
           tags: ${{ steps.dind-names.outputs.tags }}
-          load: true
           build-args: ${{ inputs.args }}
           outputs: type=docker,dest=/tmp/flyte-arm64.tar
           file: ${{ inputs.dockerfile }}
@@ -101,7 +100,6 @@ jobs:
           platforms: linux/amd64
           push: ${{ inputs.push }}
           tags: ${{ steps.dind-names.outputs.tags }}
-          load: true
           build-args: ${{ inputs.args }}
           outputs: type=docker,dest=/tmp/flyte-amd64.tar
           file: ${{ inputs.dockerfile }}
