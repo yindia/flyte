@@ -3,7 +3,7 @@ builds:
   - skip: true
 release:
   github:
-    owner: flyteorg
+    owner: evalsocket
     name: flyte
   draft: false
   prerelease: auto

@@ -2,7 +2,7 @@
 
 
 ARG FLYTE_VERSION="latest"
-FROM ghcr.io/flyteorg/flyteconsole-release:${FLYTE_VERSION} AS flyteconsole
+FROM ghcr.io/evalsocket/flyteconsole-release:${FLYTE_VERSION} AS flyteconsole
 
 FROM golang:1.18.0-alpine3.15 AS go_builder
 
