@@ -9,6 +9,7 @@ ARG TARGETARCH
 ENV GOARCH "${TARGETARCH}"
 ENV GOOS linux
 
+
 RUN apk add git openssh-client make curl
 
 # Create the artifacts directory
