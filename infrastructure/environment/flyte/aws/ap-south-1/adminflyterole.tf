@@ -1,25 +1,22 @@
 
   module "adminflyterole"  {
-    allowed_iams = [
-      
-    ]
-    links = [
+    kubernetes_trusts = [
       {
-        s3 = [
-          "write"
-        ]
-      },
-      "topic",
-      "schedulesQueue",
-      "notifcationsQueue"
+        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
+        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
+        service_name = "*"
+        namespace = "*"
+      }
     ]
-    env_name = "flyte-ap-south-1"
     version = "0.0.1"
     allowed_k8s_services = [
       {
         namespace = "*"
         service_name = "*"
       }
+    ]
+    allowed_iams = [
+      
     ]
     extra_iam_policies = [
       "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
@@ -28,8 +25,6 @@
       Version = "2012-10-17"
       Statement = [
         {
-          Effect = "Allow"
-          Resource = "*"
           Sid = "PolicySimulatorAPI"
           Action = [
             "iam:GetContextKeysForCustomPolicy",
@@ -37,8 +32,11 @@
             "iam:SimulateCustomPolicy",
             "iam:SimulatePrincipalPolicy"
           ]
+          Effect = "Allow"
+          Resource = "*"
         },
         {
+          Resource = "*"
           Sid = "PolicySimulatorConsole"
           Action = [
             "iam:GetGroup",
@@ -61,13 +59,8 @@
             "iam:ListUsers"
           ]
           Effect = "Allow"
-          Resource = "*"
         },
         {
-          Resource = [
-            "arn:aws:s3:::flyte-storage",
-            "arn:aws:s3:::flyte-storage/*"
-          ]
           Sid = "WriteBucketss3"
           Action = [
             "s3:GetObject*",
@@ -76,6 +69,10 @@
             "s3:ListBucket"
           ]
           Effect = "Allow"
+          Resource = [
+            "arn:aws:s3:::flyte-storage",
+            "arn:aws:s3:::flyte-storage/*"
+          ]
         },
         {
           Sid = "PublishSnstopic"
@@ -126,15 +123,15 @@
           ]
         },
         {
+          Action = [
+            "kms:GenerateDataKey",
+            "kms:Decrypt"
+          ]
           Effect = "Allow"
           Resource = [
             "${module.schedulesQueue.kms_arn}"
           ]
           Sid = "KMSWriteschedulesQueue"
-          Action = [
-            "kms:GenerateDataKey",
-            "kms:Decrypt"
-          ]
         },
         {
           Sid = "PublishQueuesnotifcationsQueue"
@@ -176,14 +173,17 @@
         }
       ]
     }
-    layer_name = "flyte-ap-south-1"
-    kubernetes_trusts = [
+    env_name = "flyte-ap-south-1"
+    links = [
       {
-        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
-        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
-        service_name = "*"
-        namespace = "*"
-      }
+        s3 = [
+          "write"
+        ]
+      },
+      "topic",
+      "schedulesQueue",
+      "notifcationsQueue"
     ]
+    layer_name = "flyte-ap-south-1"
     source = "tqindia/cops/cloud/module/aws_iam_role"
   }

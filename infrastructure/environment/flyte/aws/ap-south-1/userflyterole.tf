@@ -1,9 +1,15 @@
 
   module "userflyterole"  {
-    allowed_iams = [
-      
+    extra_iam_policies = [
+      "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
     ]
-    layer_name = "flyte-ap-south-1"
+    links = [
+      {
+        s3 = [
+          "write"
+        ]
+      }
+    ]
     env_name = "flyte-ap-south-1"
     kubernetes_trusts = [
       {
@@ -14,21 +20,17 @@
       }
     ]
     source = "tqindia/cops/cloud/module/aws_iam_role"
+    version = "0.0.1"
     allowed_k8s_services = [
       {
         namespace = "*"
         service_name = "*"
       }
     ]
-    extra_iam_policies = [
-      "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
-    ]
     iam_policy  {
       Version = "2012-10-17"
       Statement = [
         {
-          Effect = "Allow"
-          Resource = "*"
           Sid = "PolicySimulatorAPI"
           Action = [
             "iam:GetContextKeysForCustomPolicy",
@@ -36,9 +38,10 @@
             "iam:SimulateCustomPolicy",
             "iam:SimulatePrincipalPolicy"
           ]
+          Effect = "Allow"
+          Resource = "*"
         },
         {
-          Sid = "PolicySimulatorConsole"
           Action = [
             "iam:GetGroup",
             "iam:GetGroupPolicy",
@@ -61,6 +64,7 @@
           ]
           Effect = "Allow"
           Resource = "*"
+          Sid = "PolicySimulatorConsole"
         },
         {
           Sid = "WriteBucketss3"
@@ -78,12 +82,8 @@
         }
       ]
     }
-    links = [
-      {
-        s3 = [
-          "write"
-        ]
-      }
+    layer_name = "flyte-ap-south-1"
+    allowed_iams = [
+      
     ]
-    version = "0.0.1"
   }
