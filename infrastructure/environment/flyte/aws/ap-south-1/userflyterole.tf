@@ -1,7 +1,12 @@
 
   module "userflyterole"  {
-    layer_name = "flyte-ap-south-1"
-    source = "tqindia/cops/cloud/module/aws_iam_role"
+    version = "0.0.1"
+    extra_iam_policies = [
+      "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
+    ]
+    allowed_iams = [
+      
+    ]
     links = [
       {
         s3 = [
@@ -10,9 +15,7 @@
       }
     ]
     env_name = "flyte-ap-south-1"
-    extra_iam_policies = [
-      "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
-    ]
+    layer_name = "flyte-ap-south-1"
     kubernetes_trusts = [
       {
         open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
@@ -21,14 +24,11 @@
         namespace = "*"
       }
     ]
-    version = "0.0.1"
+    source = "tqindia/cops/cloud/module/aws_iam_role"
     allowed_k8s_services = [
       {
         namespace = "*"
         service_name = "*"
       }
-    ]
-    allowed_iams = [
-      
     ]
   }
