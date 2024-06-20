@@ -1,27 +1,27 @@
 
   module "k8scluster"  {
-    node_disk_size = 100
-    control_plane_security_groups = [
-      
-    ]
-    max_nodes = 10
-    min_nodes = 3
-    env_name = "flyte-ap-south-1"
-    enable_metrics = true
-    spot_instances = true
-    private_subnet_ids = "${module.base.private_subnet_ids}"
     vpc_id = "${module.base.vpc_id}"
-    GPU = 
+    env_name = "flyte-ap-south-1"
     layer_name = "flyte-ap-south-1"
-    version = "0.0.1"
-    cluster_name = "flyte-cluster"
-    k8s_version = "1.26"
-    kms_account_key_arn = "${module.base.kms_account_key_arn}"
+    min_nodes = 3
     node_launch_template  {
       
     }
-    source = "tqindia/cops/cloud/module/aws_eks"
-    ami_type = "AL2_x86_64"
     eks_log_retention = 60
+    k8s_version = "1.26"
+    spot_instances = true
+    GPU = 
+    version = "0.0.1"
+    ami_type = "AL2_x86_64"
+    cluster_name = "flyte-cluster"
+    kms_account_key_arn = "${module.base.kms_account_key_arn}"
+    private_subnet_ids = "${module.base.private_subnet_ids}"
+    control_plane_security_groups = [
+      
+    ]
+    enable_metrics = true
     node_instance_type = "t3.medium"
+    source = "tqindia/cops/cloud/module/aws_eks"
+    max_nodes = 10
+    node_disk_size = 100
   }
