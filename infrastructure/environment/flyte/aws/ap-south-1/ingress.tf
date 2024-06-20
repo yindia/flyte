@@ -1,23 +1,23 @@
 
   module "ingress"  {
-    wait = true
-    atomic = true
-    chart_version = "4.10.1"
+    cleanup_on_fail = true
     values  {
       
     }
+    wait = true
+    env_name = "flyte-ap-south-1"
     timeout = 23
     dependency_update = 
-    repository = "https://kubernetes.github.io/ingress-nginx"
-    cleanup_on_fail = true
     max_history = 16
-    version = "0.0.1"
+    source = "tqindia/cops/cloud/module/ingress"
     create_namespace = true
     values_files = [
       
     ]
-    wait_for_jobs = true
-    env_name = "flyte-ap-south-1"
     layer_name = "flyte-ap-south-1"
-    source = "tqindia/cops/cloud/module/ingress"
+    repository = "https://kubernetes.github.io/ingress-nginx"
+    atomic = true
+    chart_version = "4.10.1"
+    wait_for_jobs = true
+    version = "0.0.1"
   }

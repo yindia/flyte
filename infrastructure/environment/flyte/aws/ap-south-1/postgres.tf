@@ -1,19 +1,19 @@
 
   module "postgres"  {
-    instance_class = "db.t3.medium"
-    engine_version = "16.1"
-    backup_retention_days = 60
-    existing_global_database_id = 
-    multi_az = true
+    database_name = "flyte"
+    restore_from_snapshot = 
     source = "tqindia/cops/cloud/module/aws_postgres"
-    safety = true
+    engine_version = "16.1"
     extra_security_groups_ids = [
       
     ]
+    instance_class = "db.t3.medium"
     create_global_database = 
     env_name = "flyte-ap-south-1"
-    layer_name = "flyte-ap-south-1"
     version = "0.0.1"
-    database_name = "flyte"
-    restore_from_snapshot = 
+    safety = true
+    backup_retention_days = 60
+    layer_name = "flyte-ap-south-1"
+    multi_az = true
+    existing_global_database_id = 
   }
