@@ -1,5 +1,10 @@
 
   module "nodegroup"  {
+    node_instance_type = "t3.medium"
+    use_gpu = true
+    env_name = "flyte-ap-south-1"
+    spot_instances = 
+    source = "tqindia/cops/cloud/module/aws_nodegroup"
     labels = [
       {
         key = "team"
@@ -7,26 +12,16 @@
       }
     ]
     min_nodes = 3
-    max_nodes = 15
-    env_name = "flyte-ap-south-1"
-    source = "tqindia/cops/cloud/module/aws_nodegroup"
-    version = "0.0.1"
-    node_instance_type = "t3.medium"
-    use_gpu = true
-    layer_name = "flyte-ap-south-1"
-    ami_type = "AL2_x86_64"
-    node_disk_size = 100
-    spot_instances = 
     taints = [
       {
+        key = "team"
         value = "mlops"
         effect = "NoEffect"
-        key = "team"
       },
       {
-        key = "team"
         value = "mlops"
         effect = "None"
+        key = "team"
       },
       {
         key = "mlops"
@@ -34,4 +29,9 @@
         effect = "NoEffect"
       }
     ]
+    ami_type = "AL2_x86_64"
+    max_nodes = 15
+    node_disk_size = 100
+    layer_name = "flyte-ap-south-1"
+    version = "0.0.1"
   }

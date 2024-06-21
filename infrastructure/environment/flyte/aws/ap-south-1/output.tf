@@ -1,6 +1,26 @@
 
   output = [
     {
+      zone_id = {
+        value = "${module.dns.zone_id}"
+      }
+    },
+    {
+      name_servers = {
+        value = "${module.dns.name_servers}"
+      }
+    },
+    {
+      domain = {
+        value = "${module.dns.domain}"
+      }
+    },
+    {
+      cert_arn = {
+        value = "${module.dns.cert_arn}"
+      }
+    },
+    {
       role_arn = {
         value = "${module.adminflyterole.role_arn}"
       }
