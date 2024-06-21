@@ -1,25 +1,8 @@
 
   module "adminflyterole"  {
-    kubernetes_trusts = [
-      {
-        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
-        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
-        service_name = "*"
-        namespace = "*"
-      }
-    ]
-    version = "0.0.1"
-    allowed_k8s_services = [
-      {
-        namespace = "*"
-        service_name = "*"
-      }
-    ]
+    source = "tqindia/cops/cloud/module/aws_iam_role"
     allowed_iams = [
       
-    ]
-    extra_iam_policies = [
-      "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
     ]
     iam_policy  {
       Version = "2012-10-17"
@@ -36,7 +19,6 @@
           Resource = "*"
         },
         {
-          Resource = "*"
           Sid = "PolicySimulatorConsole"
           Action = [
             "iam:GetGroup",
@@ -59,9 +41,9 @@
             "iam:ListUsers"
           ]
           Effect = "Allow"
+          Resource = "*"
         },
         {
-          Sid = "WriteBucketss3"
           Action = [
             "s3:GetObject*",
             "s3:PutObject*",
@@ -73,19 +55,19 @@
             "arn:aws:s3:::flyte-storage",
             "arn:aws:s3:::flyte-storage/*"
           ]
+          Sid = "WriteBucketss3"
         },
         {
+          Resource = [
+            "${module.topic.topic_arn}"
+          ]
           Sid = "PublishSnstopic"
           Action = [
             "sns:Publish"
           ]
           Effect = "Allow"
-          Resource = [
-            "${module.topic.topic_arn}"
-          ]
         },
         {
-          Sid = "KMSWritetopic"
           Action = [
             "kms:GenerateDataKey",
             "kms:Decrypt"
@@ -94,11 +76,9 @@
           Resource = [
             "${module.topic.kms_arn}"
           ]
+          Sid = "KMSWritetopic"
         },
         {
-          Resource = [
-            "${module.schedulesQueue.queue_arn}"
-          ]
           Sid = "PublishQueuesschedulesQueue"
           Action = [
             "sqs:SendMessage",
@@ -109,17 +89,20 @@
             "sqs:DeleteMessage"
           ]
           Effect = "Allow"
+          Resource = [
+            "${module.schedulesQueue.queue_arn}"
+          ]
         },
         {
+          Effect = "Allow"
+          Resource = [
+            "${module.schedulesQueue.queue_arn}"
+          ]
           Sid = "SubscribeQueuesschedulesQueue"
           Action = [
             "sqs:ReceiveMessage",
             "sqs:GetQueueUrl",
             "sqs:GetQueueAttributes"
-          ]
-          Effect = "Allow"
-          Resource = [
-            "${module.schedulesQueue.queue_arn}"
           ]
         },
         {
@@ -134,6 +117,10 @@
           Sid = "KMSWriteschedulesQueue"
         },
         {
+          Effect = "Allow"
+          Resource = [
+            "${module.notifcationsQueue.queue_arn}"
+          ]
           Sid = "PublishQueuesnotifcationsQueue"
           Action = [
             "sqs:SendMessage",
@@ -142,10 +129,6 @@
             "sqs:GetQueueAttributes",
             "sqs:DeleteMessageBatch",
             "sqs:DeleteMessage"
-          ]
-          Effect = "Allow"
-          Resource = [
-            "${module.notifcationsQueue.queue_arn}"
           ]
         },
         {
@@ -161,7 +144,6 @@
           ]
         },
         {
-          Sid = "KMSWritenotifcationsQueue"
           Action = [
             "kms:GenerateDataKey",
             "kms:Decrypt"
@@ -170,10 +152,10 @@
           Resource = [
             "${module.notifcationsQueue.kms_arn}"
           ]
+          Sid = "KMSWritenotifcationsQueue"
         }
       ]
     }
-    env_name = "flyte-ap-south-1"
     links = [
       {
         s3 = [
@@ -184,6 +166,24 @@
       "schedulesQueue",
       "notifcationsQueue"
     ]
+    env_name = "flyte-ap-south-1"
     layer_name = "flyte-ap-south-1"
-    source = "tqindia/cops/cloud/module/aws_iam_role"
+    kubernetes_trusts = [
+      {
+        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
+        service_name = "*"
+        namespace = "*"
+        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
+      }
+    ]
+    allowed_k8s_services = [
+      {
+        service_name = "*"
+        namespace = "*"
+      }
+    ]
+    extra_iam_policies = [
+      "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
+    ]
+    version = "0.0.1"
   }

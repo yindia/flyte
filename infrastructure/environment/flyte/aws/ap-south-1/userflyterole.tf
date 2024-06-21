@@ -3,30 +3,6 @@
     extra_iam_policies = [
       "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
     ]
-    links = [
-      {
-        s3 = [
-          "write"
-        ]
-      }
-    ]
-    env_name = "flyte-ap-south-1"
-    kubernetes_trusts = [
-      {
-        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
-        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
-        service_name = "*"
-        namespace = "*"
-      }
-    ]
-    source = "tqindia/cops/cloud/module/aws_iam_role"
-    version = "0.0.1"
-    allowed_k8s_services = [
-      {
-        namespace = "*"
-        service_name = "*"
-      }
-    ]
     iam_policy  {
       Version = "2012-10-17"
       Statement = [
@@ -42,6 +18,7 @@
           Resource = "*"
         },
         {
+          Sid = "PolicySimulatorConsole"
           Action = [
             "iam:GetGroup",
             "iam:GetGroupPolicy",
@@ -64,9 +41,12 @@
           ]
           Effect = "Allow"
           Resource = "*"
-          Sid = "PolicySimulatorConsole"
         },
         {
+          Resource = [
+            "arn:aws:s3:::flyte-storage",
+            "arn:aws:s3:::flyte-storage/*"
+          ]
           Sid = "WriteBucketss3"
           Action = [
             "s3:GetObject*",
@@ -75,15 +55,35 @@
             "s3:ListBucket"
           ]
           Effect = "Allow"
-          Resource = [
-            "arn:aws:s3:::flyte-storage",
-            "arn:aws:s3:::flyte-storage/*"
-          ]
         }
       ]
     }
-    layer_name = "flyte-ap-south-1"
+    version = "0.0.1"
+    kubernetes_trusts = [
+      {
+        namespace = "*"
+        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
+        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
+        service_name = "*"
+      }
+    ]
+    source = "tqindia/cops/cloud/module/aws_iam_role"
+    allowed_k8s_services = [
+      {
+        namespace = "*"
+        service_name = "*"
+      }
+    ]
     allowed_iams = [
       
     ]
+    links = [
+      {
+        s3 = [
+          "write"
+        ]
+      }
+    ]
+    env_name = "flyte-ap-south-1"
+    layer_name = "flyte-ap-south-1"
   }
