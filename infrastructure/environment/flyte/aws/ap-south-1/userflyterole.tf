@@ -1,5 +1,24 @@
 
   module "userflyterole"  {
+    allowed_iams = [
+      
+    ]
+    kubernetes_trusts = [
+      {
+        namespace = "*"
+        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
+        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
+        service_name = "*"
+      }
+    ]
+    source = "tqindia/cops/cloud/module/aws_iam_role"
+    version = "0.0.1"
+    allowed_k8s_services = [
+      {
+        namespace = "*"
+        service_name = "*"
+      }
+    ]
     extra_iam_policies = [
       "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
     ]
@@ -43,10 +62,6 @@
           Resource = "*"
         },
         {
-          Resource = [
-            "arn:aws:s3:::flyte-storage",
-            "arn:aws:s3:::flyte-storage/*"
-          ]
           Sid = "WriteBucketss3"
           Action = [
             "s3:GetObject*",
@@ -55,28 +70,13 @@
             "s3:ListBucket"
           ]
           Effect = "Allow"
+          Resource = [
+            "arn:aws:s3:::flyte-storage",
+            "arn:aws:s3:::flyte-storage/*"
+          ]
         }
       ]
     }
-    version = "0.0.1"
-    kubernetes_trusts = [
-      {
-        namespace = "*"
-        open_id_url = "${module.k8scluster.k8s_openid_provider_url}"
-        open_id_arn = "${module.k8scluster.k8s_openid_provider_arn}"
-        service_name = "*"
-      }
-    ]
-    source = "tqindia/cops/cloud/module/aws_iam_role"
-    allowed_k8s_services = [
-      {
-        namespace = "*"
-        service_name = "*"
-      }
-    ]
-    allowed_iams = [
-      
-    ]
     links = [
       {
         s3 = [
