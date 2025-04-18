@@ -1,0 +1,23 @@
+steps:
+- command: cd infrastructure/environments/flyte/aws/ap-south-1 && terraform plan
+  env:
+    ENVIRONMENT: flyte
+    REGION: ap-south-1
+  label: Terraform Plan for Region ap-south-1 in flyte environment
+  plugins:
+  - github.com/seek-oss/aws-sm-buildkite-plugin#v2.3.2:
+      env:
+        LOGS_PROVIDER_PASSWORD: LOGS_PROVIDER_PASSWORD_FLYTE_AP_SOUTH_1
+        METRICS_PROVIDER_PASSWORD: METRICS_PROVIDER_PASSWORD_FLYTE_AP_SOUTH_1
+- block: Release
+  prompt: Please unblock the pipeline
+- command: cd infrastructure/environments/flyte/aws/ap-south-1 && terraform apply
+  env:
+    ENVIRONMENT: flyte
+    REGION: ap-south-1
+  label: Terraform Apply for Region ap-south-1 in flyte environment
+  plugins:
+  - github.com/seek-oss/aws-sm-buildkite-plugin#v2.3.2:
+      env:
+        LOGS_PROVIDER_PASSWORD: LOGS_PROVIDER_PASSWORD_FLYTE_AP_SOUTH_1
+        METRICS_PROVIDER_PASSWORD: METRICS_PROVIDER_PASSWORD_FLYTE_AP_SOUTH_1

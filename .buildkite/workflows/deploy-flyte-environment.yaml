@@ -1,0 +1,15 @@
+steps:
+- block: Request release
+  fields:
+  - default: ALL
+    key: region
+    options:
+    - label: ap-south-1
+      value: ap-south-1
+    - label: ALL
+      value: ALL
+    prompt: Please select a region for deployment
+    select: Region
+- command: buildkite-agent pipeline upload .buildkite/workflows/deploy-flyte-$(buildkite-agent
+    meta-data get region).yml
+  label: Deploy flyte environment
